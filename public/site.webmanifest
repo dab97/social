@@ -1,0 +1,16 @@
+{
+  "name": "Соцсети | РГСУ Минск",
+  "short_name": "Соцсети РГСУ",
+  "description": "Официальные социальные сети филиала РГСУ в г. Минске",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#102FA1",
+  "icons": [
+    {
+      "src": "/favicon.png?v=2027",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "site": {
+    "title": "Мы в соцсетях",
+    "subtitle": "Новости, анонсы и живое общение филиала РГСУ в г. Минске — выбирайте свою платформу и присоединяйтесь"
+  },
+  "socials": [
+    {
+      "id": "tg-abiturient",
+      "platform": "telegram",
+      "title": "Чат абитуриентов",
+      "description": "Всё о поступлении: вопросы приёмной комиссии, документы, общежитие и первый курс. Абитуриенты и родители — присоединяйтесь, отвечаем ежедневно.",
+      "url": "https://t.me/joinchat/UZZRCiMSTniMmaY4",
+      "size": "featured"
+    },
+    {
+      "id": "tg-mf",
+      "platform": "telegram",
+      "title": "Чат филиала РГСУ МФ",
+      "description": "Студенческий чат филиала: новости, расписание, взаимопомощь.",
+      "url": "https://t.me/rgsuminsk",
+      "size": "wide"
+    },
+    {
+      "id": "instagram",
+      "platform": "instagram",
+      "title": "Instagram",
+      "description": "Фото дней филиала, студенческая жизнь и мероприятия.",
+      "url": "https://www.instagram.com/rgsu_mf",
+      "size": "normal"
+    },
+    {
+      "id": "tiktok",
+      "platform": "tiktok",
+      "title": "TikTok",
+      "description": "Короткие видео из жизни студентов филиала.",
+      "url": "https://www.tiktok.com/@rgsu_mf",
+      "size": "normal"
+    },
+    {
+      "id": "website",
+      "platform": "website",
+      "title": "Наш сайт",
+      "description": "Официальный сайт филиала: новости, обучение и расписания.",
+      "url": "https://rgsu.by",
+      "size": "wide"
+    },
+    {
+      "id": "openday",
+      "platform": "openday",
+      "title": "Дни открытых дверей",
+      "description": "Расписание дней открытых дверей для абитуриентов и их родителей.",
+      "url": "https://rgsu.by/opendays",
+      "size": "wide"
+    }
+  ]
+}

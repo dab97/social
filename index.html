@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Социальные сети | Филиал РГСУ в г. Минске</title>
+    <meta
+      name="description"
+      content="Официальные социальные сети филиала РГСУ в г. Минске: Telegram-чаты абитуриентов и студентов, Instagram, TikTok и YouTube."
+    />
+    <link rel="canonical" href="https://social.rgsu.by/" />
+
+    <!-- DNS-prefetch для внешних ссылок (переходы только по клику) -->
+    <link rel="dns-prefetch" href="https://rgsu.by" />
+    <link rel="dns-prefetch" href="https://spravka.rgsu.by" />
+    <link rel="dns-prefetch" href="https://t.me" />
+    <link rel="dns-prefetch" href="https://www.instagram.com" />
+    <link rel="dns-prefetch" href="https://www.tiktok.com" />
+    <link rel="dns-prefetch" href="https://www.youtube.com" />
+    <link rel="preload" href="/data/socials.json" as="fetch" crossorigin="anonymous" />
+    <!-- Preload фирменного шрифта героя -->
+    <link rel="preload" href="/fonts/bebas-neue-pro-bold.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Favicon и PWA -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2027" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=2027" />
+    <link rel="shortcut icon" href="/favicon.ico?v=2027" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png?v=2027" />
+    <link rel="manifest" href="/site.webmanifest?v=2027" />
+    <meta name="apple-mobile-web-app-title" content="Соцсети РГСУ" />
+    <meta name="theme-color" content="#102FA1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#090d16" media="(prefers-color-scheme: dark)" />
+  </head>
+  <body class="antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
