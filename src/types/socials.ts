@@ -9,6 +9,10 @@ export interface Social {
   description: string;
   url: string;
   size?: SocialSize;
+  /** Необязательно: превью-изображение (путь от корня сайта, например /img/tg.jpg) */
+  image?: string;
+  /** Необязательно: счётчик подписчиков строкой, например "1,2 тыс." */
+  members?: string;
 }
 
 export interface SocialsData {

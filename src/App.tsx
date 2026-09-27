@@ -77,7 +77,7 @@ export default function App() {
 
         {/* 3. Bento-сетка карточек */}
         {data ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
             {data.socials.map((social) => (
               <SocialCard key={social.id} social={social} />
             ))}
@@ -99,7 +99,7 @@ export default function App() {
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
             {[0, 1, 2, 3, 4].map((i) => (
               <div
                 key={i}

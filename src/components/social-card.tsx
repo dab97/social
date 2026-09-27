@@ -28,10 +28,10 @@ const platformLabels: Partial<Record<SocialPlatform, string>> = {
 
 // Bento-спаны карточки: featured — крупный угол, wide/full — растянуты, normal — 1x1
 const sizeClasses: Record<NonNullable<Social["size"]>, string> = {
-  featured: "sm:col-span-2 lg:col-span-2 lg:row-span-2",
-  wide: "sm:col-span-2 lg:col-span-2",
-  full: "sm:col-span-2 lg:col-span-4",
-  normal: "",
+  featured: "col-span-2 row-span-2",
+  wide: "col-span-2 lg:col-span-2",
+  full: "col-span-2 lg:col-span-4",
+  normal: "col-span-1 lg:col-span-1",
 };
 
 interface SocialCardProps {
@@ -42,6 +42,7 @@ interface SocialCardProps {
 export function SocialCard({ social }: SocialCardProps) {
   const Icon = platformIcons[social.platform];
   const featured = social.size === "featured";
+  const compact = social.size === "normal";
 
   return (
     <article
@@ -57,32 +58,56 @@ export function SocialCard({ social }: SocialCardProps) {
         <div className="absolute inset-0 bg-[radial-gradient(520px_280px_at_88%_0%,rgba(255,255,255,0.10),transparent_60%)]" />
       </div>
 
-      <div className={cn("relative z-10 flex flex-col flex-grow", featured ? "p-6 sm:p-7" : "p-5")}>
+      <div className={cn("relative z-10 flex flex-col flex-grow", featured ? "p-5 sm:p-6" : "p-4")}>
         {/* Иконка платформы — стеклянный круг на баннере */}
         <div
           className={cn(
-            "rounded-full bg-white/15 border border-white/25 backdrop-blur-sm flex items-center justify-center mb-4",
-            featured ? "w-14 h-14" : "w-11 h-11"
+            "relative rounded-full bg-white/15 border border-white/25 flex items-center justify-center mb-3",
+            featured ? "w-12 h-12" : "w-9 h-9"
           )}
         >
-          <HugeiconsIcon icon={Icon} size={featured ? 26 : 22} strokeWidth={1.5} className="text-white" />
+          <HugeiconsIcon icon={Icon} size={featured ? 24 : 18} strokeWidth={1.5} className="text-white" />
+          {social.members && (
+            <span className="absolute -top-1.5 -right-2 px-1.5 py-0.5 rounded-full bg-rgsu-ruby text-white text-[9px] font-semibold leading-none shadow-xs">
+              {social.members}
+            </span>
+          )}
         </div>
 
-        <span className="text-[11px] font-semibold uppercase tracking-widest text-rgsu-ice/90">
-          {platformLabels[social.platform] ?? social.platform}
-        </span>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-rgsu-ice/90">
+            {platformLabels[social.platform] ?? social.platform}
+          </span>
+          {social.members && (
+            <span className="text-[10px] text-white/60">· подписчики</span>
+          )}
+        </div>
         <h3
           className={cn(
             "font-display font-bold uppercase tracking-wide text-white !leading-tight mt-1",
-            featured ? "text-3xl sm:text-4xl" : "text-2xl"
+            featured ? "text-3xl" : "text-xl"
           )}
         >
           {social.title}
         </h3>
+
+        {social.image && (
+          <img
+            src={social.image}
+            alt={social.title}
+            loading="lazy"
+            className={cn(
+              "w-full object-cover rounded-2xl border border-white/15 my-3",
+              featured ? "h-40 sm:h-48" : "h-24"
+            )}
+          />
+        )}
+
         <p
           className={cn(
-            "text-sm text-white/75 leading-relaxed mt-2 flex-grow",
-            featured && "text-sm sm:text-base"
+            "text-white/75 leading-relaxed mt-2 flex-grow",
+            compact ? "text-xs line-clamp-2" : "text-sm",
+            featured && "text-sm"
           )}
         >
           {social.description}
@@ -93,10 +118,13 @@ export function SocialCard({ social }: SocialCardProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${social.title} — открыть в ${social.platform}`}
-          className="mt-5 inline-flex items-center justify-center gap-2 h-11 px-6 w-full rounded-full bg-rgsu-ruby text-white text-sm font-semibold shadow-[0_6px_16px_rgba(120,15,10,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 active:scale-[0.98] transition"
+          className={cn(
+            "mt-4 inline-flex items-center justify-center gap-1.5 w-full rounded-full bg-ruby text-white font-semibold shadow-[0_6px_16px_rgba(120,15,10,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 active:scale-[0.98] transition",
+            compact ? "h-9 text-xs" : "h-11 text-sm"
+          )}
         >
           Перейти
-          <HugeiconsIcon icon={LinkSquare02Icon} size={16} strokeWidth={1.5} />
+          <HugeiconsIcon icon={LinkSquare02Icon} size={compact ? 14 : 16} strokeWidth={1.5} />
         </a>
       </div>
     </article>
