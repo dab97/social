@@ -4,7 +4,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-// Кнопка в фирменном стиле: градиент navy -> royal, как на spravka
+// Кнопка в фирменном стиле: градиент navy -> royal
 export function Button({ children, className = "", ...props }: ButtonProps) {
   return (
     <button
