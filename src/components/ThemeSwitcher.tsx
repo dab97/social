@@ -24,7 +24,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
         type="button"
         onClick={() => setTheme(isDark ? "light" : "dark")}
         className={cn(
-          "relative w-9 h-9 rounded-full text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-rgsu-ice hover:bg-primary/10 dark:hover:bg-primary/20 active:scale-95 transition",
+          "relative w-9 h-9 rounded-full text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-rgsu-ice hover:bg-primary/10 dark:hover:bg-primary/20 active:scale-[0.96] transition",
           className
         )}
         aria-label={isDark ? "Включить светлую тему" : "Включить тёмную тему"}
@@ -35,10 +35,10 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
           size={18}
           strokeWidth={1.5}
           className={cn(
-            "absolute inset-0 m-auto transition-[opacity,transform] duration-200",
+            "absolute inset-0 m-auto transition-[opacity,transform,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)]",
             isDark
-              ? "rotate-0 scale-100 opacity-100"
-              : "-rotate-90 scale-95 opacity-0 pointer-events-none"
+              ? "scale-100 opacity-100 blur-0"
+              : "scale-25 opacity-0 blur-[4px] pointer-events-none"
           )}
         />
         {/* Луна (в светлой теме для перехода на тёмную) */}
@@ -47,10 +47,10 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
           size={18}
           strokeWidth={1.5}
           className={cn(
-            "absolute inset-0 m-auto transition-[opacity,transform] duration-200",
+            "absolute inset-0 m-auto transition-[opacity,transform,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)]",
             isDark
-              ? "rotate-90 scale-95 opacity-0 pointer-events-none"
-              : "rotate-0 scale-100 opacity-100"
+              ? "scale-25 opacity-0 blur-[4px] pointer-events-none"
+              : "scale-100 opacity-100 blur-0"
           )}
         />
         <span className="sr-only">Переключить тему</span>

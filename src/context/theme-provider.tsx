@@ -51,8 +51,14 @@ export function ThemeProvider({
   const value = {
     theme,
     setTheme: (theme: Theme) => {
+      // better-ui: гасим transition на один кадр — иначе цвета при смене темы «мажутся»
+      const style = document.createElement("style");
+      style.textContent = "*,*::before,*::after{transition:none !important}";
+      document.head.appendChild(style);
       localStorage.setItem(storageKey, theme);
       setTheme(theme);
+      void document.body.offsetWidth; // принудительный reflow
+      requestAnimationFrame(() => style.remove());
     },
   };
 

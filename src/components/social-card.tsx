@@ -97,8 +97,8 @@ export function SocialCard({ social }: SocialCardProps) {
             alt={social.title}
             loading="lazy"
             className={cn(
-              "w-full object-cover rounded-2xl border border-white/15 my-3",
-              featured ? "h-40 sm:h-48" : "h-24"
+              "w-full object-cover border border-white/10 my-3",
+              featured ? "h-40 sm:h-48 rounded" : "h-24 rounded-lg"
             )}
           />
         )}
@@ -119,12 +119,12 @@ export function SocialCard({ social }: SocialCardProps) {
           rel="noopener noreferrer"
           aria-label={`${social.title} — открыть в ${social.platform}`}
           className={cn(
-            "mt-4 inline-flex items-center justify-center gap-1.5 w-full rounded-full bg-rgsu-ruby text-white font-semibold shadow-[0_6px_16px_rgba(120,15,10,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 active:scale-[0.98] transition",
+            "mt-4 inline-flex items-center justify-center gap-1.5 w-full rounded-full bg-rgsu-ruby text-white font-semibold shadow-[0_6px_16px_rgba(120,15,10,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 active:scale-[0.96] transition",
             compact ? "h-9 text-xs" : "h-11 text-sm"
           )}
         >
           Перейти
-          <HugeiconsIcon icon={LinkSquare02Icon} size={compact ? 14 : 16} strokeWidth={1.5} />
+          <HugeiconsIcon icon={LinkSquare02Icon} size={compact ? 14 : 16} strokeWidth={2} />
         </a>
       </div>
     </article>
