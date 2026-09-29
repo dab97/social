@@ -68,24 +68,24 @@ export function SocialCard({ social }: SocialCardProps) {
         >
           <HugeiconsIcon icon={Icon} size={featured ? 24 : 18} strokeWidth={1.5} className="text-white" />
           {social.members && (
-            <span className="absolute -top-1.5 -right-2 px-1.5 py-0.5 rounded-full bg-rgsu-ruby text-white text-[9px] font-semibold leading-none shadow-xs">
+            <span className="absolute -top-1.5 -right-2 px-1.5 py-0.5 rounded-full bg-rgsu-ruby text-white text-[11px] font-semibold leading-none shadow-xs">
               {social.members}
             </span>
           )}
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-[10px] font-semibold uppercase tracking-widest text-rgsu-ice/90">
+          <span className="text-xs font-semibold uppercase tracking-widest text-rgsu-ice/90">
             {platformLabels[social.platform] ?? social.platform}
           </span>
           {social.members && (
-            <span className="text-[10px] text-white/60">· подписчики</span>
+            <span className="text-xs text-white/60">· подписчики</span>
           )}
         </div>
         <h3
           className={cn(
-            "font-display font-bold uppercase tracking-wide text-white !leading-tight mt-1",
-            featured ? "text-3xl" : "text-xl"
+            "font-display font-bold uppercase tracking-wide text-white mt-1",
+            featured ? "text-3xl leading-[1.1]" : "text-xl leading-[1.1]"
           )}
         >
           {social.title}

@@ -65,7 +65,7 @@ export default function App() {
       {/* 2. Герой */}
       <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-24 sm:pb-8">
         <section className="space-y-2 sm:space-y-3">
-          <h1 className="font-display font-bold uppercase text-5xl sm:text-display text-foreground">
+          <h1 className="font-display font-bold uppercase text-5xl sm:text-display text-foreground text-balance">
             {data ? data.site.title : "Мы в соцсетях"}
           </h1>
           <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed max-w-2xl">
@@ -126,7 +126,7 @@ export default function App() {
               Филиал РГСУ в г. Минске
               <span className="hidden sm:inline font-normal text-muted-foreground text-xs"> · ул. Народная, 21</span>
             </p>
-            <p className="text-[11px] text-slate-600 dark:text-slate-400 font-medium">
+            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
               © {new Date().getFullYear()} РГСУ · Официальные сообщества филиала
             </p>
           </div>

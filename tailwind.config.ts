@@ -9,6 +9,10 @@ export default {
         // Дисплейный шрифт для крупных заголовков (кириллический Bebas Neue Pro)
         display: ['"Bebas Neue Pro"', '"Bebas Neue"', 'Oswald', 'system-ui', 'sans-serif'],
       },
+      fontSize: {
+        // Верхняя ступень шкалы: герой h1 на десктопе (text-display)
+        display: ['4.5rem', { lineHeight: '1.05' }],
+      },
       backgroundImage: {
         // Единственный фирменный градиент из брендбука: navy Pantone 2758 C -> royal Pantone 286 C
         'rgsu-brand': 'linear-gradient(90deg, #082567 0%, #102FA1 100%)',
