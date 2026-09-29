@@ -46,6 +46,37 @@ body {
   animation-delay: calc(var(--stagger, 0) * 40ms);
 }
 
+/* Skip-link: скрыт, пока не в фокусе; появляется при клавиатурной навигации */
+.skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link:focus {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 50;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background-color: #102FA1; /* royal, Pantone 286 C */
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(8, 37, 103, 0.35);
+}
+
 @layer base {
   :root {
     /* Neutral Slate Canvas & Surfaces */

@@ -24,7 +24,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
         type="button"
         onClick={() => setTheme(isDark ? "light" : "dark")}
         className={cn(
-          "relative w-9 h-9 rounded-full text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-rgsu-ice hover:bg-primary/10 dark:hover:bg-primary/20 active:scale-[0.96] transition",
+          "relative w-10 h-10 rounded-full text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-rgsu-ice hover:bg-primary/10 dark:hover:bg-primary/20 active:scale-[0.96] transition",
           className
         )}
         aria-label={isDark ? "Включить светлую тему" : "Включить тёмную тему"}

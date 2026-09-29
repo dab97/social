@@ -44,13 +44,17 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+      {/* Skip-link: первый фокусируемый элемент (better-accessibility) */}
+      <a href="#content" className="skip-link">
+        Перейти к содержимому
+      </a>
       {/* 1. Плавающая капсула Liquid Glass — контент прокручивается под стеклом */}
       <header className="sticky top-0 z-40 w-full px-3 sm:px-5 pt-3 pointer-events-none">
         <div className="glass-header pointer-events-auto max-w-6xl mx-auto h-14 rounded-full flex items-center justify-between gap-3 pl-2.5 pr-2.5 bg-white/80 dark:bg-slate-900/85 backdrop-blur-xl backdrop-saturate-150 border border-white/70 dark:border-white/15 shadow-[0_1px_3px_rgba(15,23,42,0.08),0_4px_12px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.75)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.08)]">
           <div className="flex items-center gap-2.5 min-w-0">
             <img
               src="/favicon.svg"
-              alt="Логотип РГСУ"
+              alt=""
               className="w-9 h-9 rounded-full shrink-0 shadow-xs"
             />
             <div className="flex flex-col min-w-0">
@@ -63,7 +67,7 @@ export default function App() {
       </header>
 
       {/* 2. Герой */}
-      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-24 sm:pb-8">
+      <main id="content" className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-24 sm:pb-8">
         <section className="space-y-2 sm:space-y-3">
           <h1 className="font-display font-bold uppercase text-5xl sm:text-display text-foreground text-balance">
             {data ? data.site.title : "Мы в соцсетях"}
@@ -85,12 +89,12 @@ export default function App() {
             ))}
           </div>
         ) : error ? (
-          <div className="bg-card border border-rose-200 dark:border-rose-900/60 rounded-3xl p-6 sm:p-8 text-center space-y-4 max-w-md mx-auto my-12">
+          <div role="alert" className="bg-card border border-rose-200 dark:border-rose-900/60 rounded-3xl p-6 sm:p-8 text-center space-y-4 max-w-md mx-auto my-12">
             <div className="w-11 h-11 rounded-xl bg-rose-50 dark:bg-rose-950/50 flex items-center justify-center text-rose-600 dark:text-rose-400 mx-auto border border-rose-200 dark:border-rose-900">
               <HugeiconsIcon icon={AlertCircleIcon} size={22} strokeWidth={1.5} />
             </div>
             <div className="space-y-1">
-              <h3 className="text-base font-semibold text-foreground">Не удалось загрузить данные</h3>
+              <h2 className="text-base font-semibold text-foreground">Не удалось загрузить данные</h2>
               <p className="text-xs sm:text-sm text-muted-foreground">
                 Проверьте подключение к сети или обновите страницу.
               </p>
