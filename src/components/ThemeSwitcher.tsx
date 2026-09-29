@@ -35,10 +35,10 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
           size={18}
           strokeWidth={1.5}
           className={cn(
-            "absolute inset-0 m-auto transition-[opacity,transform] duration-300",
+            "absolute inset-0 m-auto transition-[opacity,transform] duration-200",
             isDark
               ? "rotate-0 scale-100 opacity-100"
-              : "-rotate-90 scale-0 opacity-0 pointer-events-none"
+              : "-rotate-90 scale-95 opacity-0 pointer-events-none"
           )}
         />
         {/* Луна (в светлой теме для перехода на тёмную) */}
@@ -47,9 +47,9 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
           size={18}
           strokeWidth={1.5}
           className={cn(
-            "absolute inset-0 m-auto transition-[opacity,transform] duration-300",
+            "absolute inset-0 m-auto transition-[opacity,transform] duration-200",
             isDark
-              ? "rotate-90 scale-0 opacity-0 pointer-events-none"
+              ? "rotate-90 scale-95 opacity-0 pointer-events-none"
               : "rotate-0 scale-100 opacity-100"
           )}
         />

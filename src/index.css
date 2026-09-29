@@ -23,6 +23,29 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* Moушен-токены: сильный ease-out для появления контента (скилл animate) */
+:root {
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Появление карточек после загрузки данных: лёгкий подъём + фейд, ступень 40мс.
+   --stagger задаётся инлайном на каждой карточке; reduced-motion гасится глобально ниже. */
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-enter {
+  animation: card-enter 240ms var(--ease-out-strong) backwards;
+  animation-delay: calc(var(--stagger, 0) * 40ms);
+}
+
 @layer base {
   :root {
     /* Neutral Slate Canvas & Surfaces */

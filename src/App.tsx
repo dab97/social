@@ -78,8 +78,10 @@ export default function App() {
         {/* 3. Bento-сетка карточек */}
         {data ? (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-            {data.socials.map((social) => (
-              <SocialCard key={social.id} social={social} />
+            {data.socials.map((social, i) => (
+              <div key={social.id} className="contents" style={{ "--stagger": i } as React.CSSProperties}>
+                <SocialCard social={social} />
+              </div>
             ))}
           </div>
         ) : error ? (
@@ -103,7 +105,7 @@ export default function App() {
             {[0, 1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className={`rounded-3xl border border-slate-200/80 dark:border-slate-800 bg-card p-5 min-h-[180px] ${
+                className={`animate-pulse rounded-3xl border border-slate-200/80 dark:border-slate-800 bg-card p-5 min-h-[180px] ${
                   i === 0 ? "sm:col-span-2 lg:col-span-2 lg:row-span-2" : ""
                 }`}
               >

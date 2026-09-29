@@ -47,7 +47,7 @@ export function SocialCard({ social }: SocialCardProps) {
   return (
     <article
       className={cn(
-        "relative w-full h-full flex flex-col overflow-hidden rounded-3xl bg-rgsu-brand text-white shadow-[0_8px_24px_rgba(8,37,103,0.35)] transition duration-300 hover:shadow-[0_14px_36px_rgba(8,37,103,0.5)] hover:-translate-y-0.5",
+        "card-enter relative w-full h-full flex flex-col overflow-hidden rounded-3xl bg-rgsu-brand text-white shadow-[0_8px_24px_rgba(8,37,103,0.35)] transition duration-200 hover:shadow-[0_14px_36px_rgba(8,37,103,0.5)] hover:-translate-y-0.5",
         sizeClasses[social.size ?? "normal"]
       )}
     >

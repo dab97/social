@@ -2,6 +2,10 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
+  future: {
+    // hover-стили только на устройствах с курсором — тап на тач-экране не вызывает ложный hover
+    hoverOnlyWhenSupported: true,
+  },
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
