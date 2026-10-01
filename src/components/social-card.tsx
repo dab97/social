@@ -152,7 +152,10 @@ export function SocialCard({ social, mobileClassName, mobileCompact, expanded, o
             }}
             aria-pressed={expanded}
             aria-label={`${expanded ? "Свернуть" : "Развернуть"} карточку «${social.title}»`}
-            className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-white/10 border border-white/25 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white hover:bg-white/20 active:scale-[0.96] transition"
+            className={cn(
+              "absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-white/10 border border-white/25 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white hover:bg-white/20 active:scale-[0.96] transition",
+              mobileCompact && "max-lg:hidden"
+            )}
           >
             <HugeiconsIcon
               icon={expanded ? CollapseIcon : ExpandIcon}
@@ -237,9 +240,9 @@ export function SocialCard({ social, mobileClassName, mobileCompact, expanded, o
           aria-label={`Перейти — ${social.title}`}
           className={cn(
             "inline-flex items-center justify-center rounded-full bg-rgsu-ruby text-white font-semibold ring-1 ring-white/25 shadow-[0_6px_16px_rgba(120,15,10,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 active:scale-[0.96] transition",
-            // Узкие карточки на мобильном: круг-иконка в углу; иначе — полная плашка
+            // Узкие карточки на мобильном: круг-иконка прижат к низу; иначе — полная плашка
             compact || mobileCompact
-              ? "max-lg:mt-3 max-lg:ml-auto max-lg:w-10 max-lg:h-10 mt-4 w-full h-11 text-sm"
+              ? "max-lg:mt-auto max-lg:ml-auto max-lg:w-10 max-lg:h-10 mt-4 w-full h-11 text-sm"
               : "mt-4 gap-1.5 w-full h-11 text-sm"
           )}
         >
