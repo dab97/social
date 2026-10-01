@@ -54,16 +54,17 @@ body {
   animation-delay: calc(var(--stagger, 0) * 40ms);
 }
 
-/* Apple-сквиркл (выбран пользователем: 32px + superellipse(3.4), A/B на живых карточках).
-   corner-shape — отдельным правилом под @supports, чтобы парсеры без поддержки
-   свойства не теряли border-radius. Chromium 139+/Safari 26+ — непрерывная кривизна. */
+/* Apple-сквиркл (выбран пользователем: 40px + superellipse(2.4) — A/B на живых карточках,
+   референс — карточка vuesax). corner-shape — отдельным правилом под @supports, чтобы
+   парсеры без поддержки свойства не теряли border-radius. Chromium 139+/Safari 26+ —
+   непрерывная кривизна, остальные — обычный радиус 40px. */
 .squircle {
-  border-radius: 2rem;
+  border-radius: 2.5rem;
 }
 
-@supports (corner-shape: superellipse(3.4)) {
+@supports (corner-shape: superellipse(2.4)) {
   .squircle {
-    corner-shape: superellipse(3.4);
+    corner-shape: superellipse(2.4);
   }
 }
 
