@@ -67,6 +67,10 @@ export default {
         },
       },
       borderRadius: {
+        // Семантические радиусы плиток иконок: пропорция «радиус = половина плитки»
+        'tile-lg': '2rem',     // 32px — плитка featured (64px)
+        'tile': '1.5rem',      // 24px — плитка normal (48px)
+        'tile-sm': '1.25rem',  // 20px — узкая мобильная плитка (40px)
         '3xl': '1.5rem', // 24px
         '2xl': '1rem',   // 16px
         'xl': '0.75rem', // 12px

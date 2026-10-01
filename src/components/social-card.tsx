@@ -171,8 +171,8 @@ export function SocialCard({ social, mobileClassName, mobileCompact, expanded, o
             "relative bg-white flex items-center justify-center mb-3 [corner-shape:superellipse(2.4)]",
             "shadow-[0_14px_28px_-8px_rgba(0,0,0,0.45),inset_0_2px_0_rgba(255,255,255,0.95),inset_0_-4px_10px_rgba(0,0,0,0.14)]",
             featured
-              ? "w-16 h-16 rounded-[32px]"
-              : cn("w-12 h-12 rounded-[24px]", mobileCompact && "max-lg:w-10 max-lg:h-10 max-lg:rounded-[20px]")
+              ? "w-16 h-16 rounded-tile-lg"
+              : cn("w-12 h-12 rounded-tile", mobileCompact && "max-lg:w-10 max-lg:h-10 max-lg:rounded-tile-sm")
           )}
         >
           <HugeiconsIcon
