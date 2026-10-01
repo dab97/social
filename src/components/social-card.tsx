@@ -123,7 +123,7 @@ export function SocialCard({ social, expanded, onToggle, onHover, onUnhover }: S
         {/* Большая 3D-иконка: белая плитка-аппток с бликом и внутренними тенями */}
         <div
           className={cn(
-            "relative rounded-2xl [corner-shape:superellipse(2.6)] bg-white flex items-center justify-center mb-3",
+            "relative rounded-2xl [corner-shape:superellipse(3.4)] bg-white flex items-center justify-center mb-3",
             "shadow-[0_14px_28px_-8px_rgba(0,0,0,0.45),inset_0_2px_0_rgba(255,255,255,0.95),inset_0_-4px_10px_rgba(0,0,0,0.14)]",
             featured ? "w-16 h-16" : "w-12 h-12"
           )}

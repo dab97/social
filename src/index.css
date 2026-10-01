@@ -54,17 +54,16 @@ body {
   animation-delay: calc(var(--stagger, 0) * 40ms);
 }
 
-/* Apple-сквиркл: corner-shape отдельным правилом под @supports — парсеры без
-   поддержки свойства не должны терять border-radius. Степень 2.6 (не 4!):
-   superellipse(4) при 24px визуально читается почти квадратом — проверено A/B.
-   Chromium 139+/Safari 26+ получают непрерывную кривизну, остальные — обычный радиус. */
+/* Apple-сквиркл (выбран пользователем: 32px + superellipse(3.4), A/B на живых карточках).
+   corner-shape — отдельным правилом под @supports, чтобы парсеры без поддержки
+   свойства не теряли border-radius. Chromium 139+/Safari 26+ — непрерывная кривизна. */
 .squircle {
-  border-radius: 1.5rem;
+  border-radius: 2rem;
 }
 
-@supports (corner-shape: superellipse(2.6)) {
+@supports (corner-shape: superellipse(3.4)) {
   .squircle {
-    corner-shape: superellipse(2.6);
+    corner-shape: superellipse(3.4);
   }
 }
 
