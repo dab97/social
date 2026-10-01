@@ -8,6 +8,8 @@ import {
   GlobeIcon,
   DoorOpenIcon,
   LinkSquare02Icon,
+  ExpandIcon,
+  CollapseIcon,
 } from "@hugeicons/core-free-icons";
 import { cn } from "@/lib/utils";
 
@@ -36,10 +38,16 @@ const sizeClasses: Record<NonNullable<Social["size"]>, string> = {
 
 interface SocialCardProps {
   social: Social;
+  /** Карточка раскрыта (пружинная сетка, только lg) */
+  expanded?: boolean;
+  /** Клик-переключатель раскрытия (mouse на всей площади карточки) */
+  onToggle?: () => void;
+  onHover?: () => void;
+  onUnhover?: () => void;
 }
 
 // Карточка-баннер в стиле og-image: фирменный градиент, диагональные полосы, Bebas-заголовок
-export function SocialCard({ social }: SocialCardProps) {
+export function SocialCard({ social, expanded, onToggle, onHover, onUnhover }: SocialCardProps) {
   const Icon = platformIcons[social.platform];
   const featured = social.size === "featured";
   const compact = social.size === "normal";
@@ -47,9 +55,21 @@ export function SocialCard({ social }: SocialCardProps) {
   return (
     <article
       className={cn(
-        "card-enter relative w-full h-full flex flex-col overflow-hidden rounded-3xl bg-rgsu-brand text-white shadow-[0_8px_24px_rgba(8,37,103,0.35)] transition duration-200 hover:shadow-[0_14px_36px_rgba(8,37,103,0.5)] hover:-translate-y-0.5",
+        "card-enter squircle group relative w-full h-full flex flex-col overflow-hidden bg-rgsu-brand text-white shadow-[0_8px_24px_rgba(8,37,103,0.35)] transition duration-200 hover:shadow-[0_14px_36px_rgba(8,37,103,0.5)] hover:-translate-y-0.5",
+        onToggle && "lg:cursor-pointer",
         sizeClasses[social.size ?? "normal"]
       )}
+      onClick={
+        onToggle
+          ? (e) => {
+              // клики по ссылкам и кнопкам не должны раскрывать карточку
+              if ((e.target as HTMLElement).closest("a, button")) return;
+              onToggle();
+            }
+          : undefined
+      }
+      onMouseEnter={onHover}
+      onMouseLeave={onUnhover}
     >
       {/* Диагональные световые полосы и свечение — как на баннерах rgsu.by */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
@@ -59,6 +79,25 @@ export function SocialCard({ social }: SocialCardProps) {
       </div>
 
       <div className={cn("relative z-10 flex flex-col flex-grow", featured ? "p-5 sm:p-6" : "p-4")}>
+        {/* Кнопка раскрытия: на hover и при клавиатурном фокусе (пружинная сетка, lg) */}
+        {onToggle && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle();
+            }}
+            aria-pressed={expanded}
+            aria-label={`${expanded ? "Свернуть" : "Развернуть"} карточку «${social.title}»`}
+            className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-white/10 border border-white/25 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white hover:bg-white/20 active:scale-[0.96] transition"
+          >
+            <HugeiconsIcon
+              icon={expanded ? CollapseIcon : ExpandIcon}
+              size={14}
+              strokeWidth={2}
+            />
+          </button>
+        )}
         {/* Иконка платформы — стеклянный круг на баннере */}
         <div
           className={cn(
@@ -97,7 +136,8 @@ export function SocialCard({ social }: SocialCardProps) {
             alt={social.title}
             loading="lazy"
             className={cn(
-              "w-full object-cover border border-white/10 my-3",
+              "w-full object-cover border border-white/10 my-3 transition-transform duration-300",
+              expanded && "scale-[1.04]",
               featured ? "h-40 sm:h-48 rounded" : "h-24 rounded-lg"
             )}
           />
@@ -106,7 +146,7 @@ export function SocialCard({ social }: SocialCardProps) {
         <p
           className={cn(
             "text-white/75 leading-relaxed mt-2 flex-grow",
-            compact ? "text-xs line-clamp-2" : "text-sm",
+            compact && !expanded ? "text-xs line-clamp-2" : "text-sm",
             featured && "text-sm"
           )}
         >

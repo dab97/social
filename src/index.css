@@ -28,22 +28,37 @@ body {
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* Появление карточек после загрузки данных: лёгкий подъём + фейд, ступень 40мс.
+/* Появление карточек после загрузки данных: каскад с упругим bounce-overshoot
+   (референс vuesax anim-bento-bounce: bounce 0.55 → у нас сдержаннее, ~0.2).
    --stagger задаётся инлайном на каждой карточке; reduced-motion гасится глобально ниже. */
 @keyframes card-enter {
-  from {
+  0% {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(10px) scale(0.96);
   }
-  to {
+  60% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1.015);
+  }
+  80% {
+    transform: translateY(0) scale(0.997);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
 .card-enter {
-  animation: card-enter 240ms var(--ease-out-strong) backwards;
+  animation: card-enter 380ms var(--ease-out-strong) backwards;
   animation-delay: calc(var(--stagger, 0) * 40ms);
+}
+
+/* Apple-сквиркл: нативный corner-shape (Chromium 139+/Safari 26+);
+   старые браузеры gracefully остаются на обычном border-radius 24px */
+.squircle {
+  border-radius: 1.5rem;
+  corner-shape: superellipse(4);
 }
 
 /* Skip-link: скрыт, пока не в фокусе; появляется при клавиатурной навигации */

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SocialsData } from "./types/socials";
-import { SocialCard } from "./components/social-card";
+import { BentoGrid } from "./components/bento-grid";
 import { ThemeSwitcher } from "./components/ThemeSwitcher";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { AlertCircleIcon, RefreshIcon } from "@hugeicons/core-free-icons";
@@ -81,15 +81,9 @@ export default function App() {
 
         {/* 3. Bento-сетка карточек */}
         {data ? (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-            {data.socials.map((social, i) => (
-              <div key={social.id} className="contents" style={{ "--stagger": i } as React.CSSProperties}>
-                <SocialCard social={social} />
-              </div>
-            ))}
-          </div>
+          <BentoGrid socials={data.socials} />
         ) : error ? (
-          <div role="alert" className="bg-card border border-rose-200 dark:border-rose-900/60 rounded-3xl p-6 sm:p-8 text-center space-y-4 max-w-md mx-auto my-12">
+          <div role="alert" className="squircle bg-card border border-rose-200 dark:border-rose-900/60 p-6 sm:p-8 text-center space-y-4 max-w-md mx-auto my-12">
             <div className="w-11 h-11 rounded-xl bg-rose-50 dark:bg-rose-950/50 flex items-center justify-center text-rose-600 dark:text-rose-400 mx-auto border border-rose-200 dark:border-rose-900">
               <HugeiconsIcon icon={AlertCircleIcon} size={22} strokeWidth={1.5} />
             </div>
@@ -109,7 +103,7 @@ export default function App() {
             {[0, 1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className={`animate-pulse rounded-3xl border border-slate-200/80 dark:border-slate-800 bg-card p-5 min-h-[180px] ${
+                className={`squircle animate-pulse border border-slate-200/80 dark:border-slate-800 bg-card p-5 min-h-[180px] ${
                   i === 0 ? "sm:col-span-2 lg:col-span-2 lg:row-span-2" : ""
                 }`}
               >
