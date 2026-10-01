@@ -37,24 +37,19 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
 
-  // Мобильная мозаика на 3 треках — точная раскладка референса vuesax:
-  // r1 «2+1» (featured двойная + первая wide узкая высокая 1×2),
-  // r2 «1+2» (хвост высокой + первая normal двойная — большая карточка),
-  // r3 «1+1+1» (остальные по треку)
+  // Мобильная мозаика на 3 треках — фиксированный паттерн по ПОРЯДКУ карточек в JSON
+  // (пользователь управляет раскладкой, переставляя карточки в socials.json):
+  // r1 «2+1», r2 «1+2» (третья карточка — узкая высокая через край ряда), r3 «1+1+1»
   const mobileLayout = useMemo(() => {
-    let wideSeen = 0;
-    let normalSeen = 0;
-    return socials.map((s) => {
-      const size = s.size ?? "normal";
-      if (size === "featured") return { cls: "col-span-2", cols: 2, compact: false };
-      if (size === "wide") {
-        const first = wideSeen++ === 0;
-        return { cls: first ? "col-span-1 row-span-2" : "col-span-1", cols: 1, compact: true };
-      }
-      if (size === "full") return { cls: "col-span-3", cols: 3, compact: false };
-      const first = normalSeen++ === 0;
-      return { cls: first ? "col-span-2" : "col-span-1", cols: first ? 2 : 1, compact: !first };
-    });
+    const pattern = [
+      { cls: "max-lg:col-span-2", cols: 2, compact: false },
+      { cls: "max-lg:col-span-1", cols: 1, compact: true },
+      { cls: "max-lg:col-span-1 max-lg:row-span-2", cols: 1, compact: true },
+      { cls: "max-lg:col-span-2", cols: 2, compact: false },
+      { cls: "max-lg:col-span-1", cols: 1, compact: true },
+      { cls: "max-lg:col-span-1", cols: 1, compact: true },
+    ];
+    return socials.map((s, i) => pattern[i % pattern.length]);
   }, [socials]);
 
   // Сколько колонок занимает каждая карточка (full на lg — вся ширина)

@@ -67,7 +67,7 @@ export default function App() {
       </header>
 
       {/* 2. Герой */}
-      <main id="content" className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-24 sm:pb-8">
+      <main id="content" className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-4 sm:pb-8">
         <section className="space-y-2 sm:space-y-3">
           <h1 className="font-display font-bold uppercase text-5xl sm:text-display text-foreground text-balance">
             {data ? data.site.title : "Мы в соцсетях"}
@@ -119,7 +119,7 @@ export default function App() {
       </main>
 
       {/* 4. Футер */}
-      <footer className="border-t border-slate-200/60 dark:border-slate-800/60 py-4 my-8 sm:mb-0 bg-transparent text-xs text-muted-foreground">
+      <footer className="border-t border-slate-200/60 dark:border-slate-800/60 bg-transparent text-xs text-muted-foreground mt-6 sm:mt-8 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
           <div>
             <p className="font-medium text-foreground text-xs sm:text-sm">
