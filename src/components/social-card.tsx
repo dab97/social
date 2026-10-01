@@ -72,6 +72,8 @@ interface SocialCardProps {
   social: Social;
   /** Мобильные bento-спаны (мозаика на 3 треках) */
   mobileClassName?: string;
+  /** Узкая карточка мобильной мозаики — компактная вёрстка (text-xs, clamp) */
+  mobileCompact?: boolean;
   /** Карточка раскрыта (пружинная сетка) */
   expanded?: boolean;
   /** Клик-переключатель раскрытия (mouse на всей площади карточки) */
@@ -98,17 +100,17 @@ function spawnCardRipple(e: React.PointerEvent<HTMLElement>) {
 }
 
 // Карточка-баннер в стиле og-image: фирменный градиент, диагональные полосы, Bebas-заголовок
-export function SocialCard({ social, mobileClassName, expanded, onToggle, onHover, onUnhover }: SocialCardProps) {
+export function SocialCard({ social, mobileClassName, mobileCompact, expanded, onToggle, onHover, onUnhover }: SocialCardProps) {
   const Icon = platformIcons[social.platform];
   const featured = social.size === "featured";
-  const compact = social.size === "normal";
+  const compact = social.size === "normal" || mobileCompact;
 
   return (
     <article
       className={cn(
         "card-enter squircle group relative w-full h-full flex flex-col overflow-hidden text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition duration-200 hover:shadow-[0_14px_36px_rgba(0,0,0,0.5)] hover:-translate-y-0.5",
         platformBackgrounds[social.platform],
-        onToggle && "lg:cursor-pointer",
+        onToggle && "cursor-pointer",
         mobileClassName,
         lgSizeClasses[social.size ?? "normal"]
       )}
@@ -219,7 +221,8 @@ export function SocialCard({ social, mobileClassName, expanded, onToggle, onHove
           className={cn(
             "text-white/75 leading-relaxed mt-2 flex-grow",
             compact && !expanded ? "text-xs line-clamp-2" : "text-sm",
-            featured && "text-sm"
+            featured && "text-sm",
+            mobileCompact && !compact && "max-lg:text-xs max-lg:line-clamp-2"
           )}
         >
           {social.description}
@@ -232,7 +235,8 @@ export function SocialCard({ social, mobileClassName, expanded, onToggle, onHove
           aria-label={`Перейти — ${social.title}`}
           className={cn(
             "mt-4 inline-flex items-center justify-center gap-1.5 w-full rounded-full bg-rgsu-ruby text-white font-semibold ring-1 ring-white/25 shadow-[0_6px_16px_rgba(120,15,10,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 active:scale-[0.96] transition",
-            compact ? "h-9 text-xs" : "h-11 text-sm"
+            compact ? "h-9 text-xs" : "h-11 text-sm",
+            mobileCompact && !compact && "max-lg:h-9 max-lg:text-xs"
           )}
         >
           Перейти

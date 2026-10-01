@@ -37,14 +37,23 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
 
-  // Мобильная мозаика на 3 треках: featured и wide — двойные (два Telegram-чата
-  // одинаковыми карточками), normal/full — по ширине трека; ряды «2+1»
+  // Мобильная мозаика на 3 треках — точная раскладка референса vuesax:
+  // r1 «2+1» (featured двойная + первая wide узкая высокая 1×2),
+  // r2 «1+2» (хвост высокой + первая normal двойная — большая карточка),
+  // r3 «1+1+1» (остальные по треку)
   const mobileLayout = useMemo(() => {
+    let wideSeen = 0;
+    let normalSeen = 0;
     return socials.map((s) => {
       const size = s.size ?? "normal";
-      if (size === "featured" || size === "wide") return { cls: "col-span-2", cols: 2 };
-      if (size === "full") return { cls: "col-span-3", cols: 3 };
-      return { cls: "col-span-1", cols: 1 };
+      if (size === "featured") return { cls: "col-span-2", cols: 2, compact: false };
+      if (size === "wide") {
+        const first = wideSeen++ === 0;
+        return { cls: first ? "col-span-1 row-span-2" : "col-span-1", cols: 1, compact: true };
+      }
+      if (size === "full") return { cls: "col-span-3", cols: 3, compact: false };
+      const first = normalSeen++ === 0;
+      return { cls: first ? "col-span-2" : "col-span-1", cols: first ? 2 : 1, compact: !first };
     });
   }, [socials]);
 
@@ -267,6 +276,7 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
           <SocialCard
             social={social}
             mobileClassName={mobileLayout[i].cls}
+            mobileCompact={mobileLayout[i].compact}
             expanded={focused === i}
             onToggle={() => toggle(i)}
             onHover={() => hover(i)}
