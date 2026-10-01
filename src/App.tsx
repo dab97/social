@@ -136,7 +136,7 @@ export default function App() {
             href="https://spravka.rgsu.by"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-primary dark:hover:text-rgsu-ice transition-colors py-1"
+            className="hidden sm:block hover:text-primary dark:hover:text-rgsu-ice transition-colors py-1"
           >
             Заказ справок и документов
           </a>
