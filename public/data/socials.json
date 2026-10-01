@@ -8,16 +8,16 @@
       "id": "tg-abiturient",
       "platform": "telegram",
       "title": "Чат абитуриентов",
-      "description": "Всё о поступлении: вопросы приёмной комиссии, документы, общежитие и первый курс. Абитуриенты и родители — присоединяйтесь, отвечаем ежедневно.",
+      "description": "Всё о поступлении: вопросы приёмной комиссии, документы. Абитуриенты и родители — присоединяйтесь, отвечаем ежедневно.",
       "url": "https://t.me/joinchat/UZZRCiMSTniMmaY4",
       "size": "featured"
     },
     {
-      "id": "tg-mf",
-      "platform": "telegram",
-      "title": "Чат филиала РГСУ МФ",
-      "description": "Студенческий чат филиала: новости, расписание, взаимопомощь.",
-      "url": "https://t.me/rgsuminsk",
+      "id": "tiktok",
+      "platform": "tiktok",
+      "title": "TikTok",
+      "description": "Короткие видео из жизни студентов филиала.",
+      "url": "https://www.tiktok.com/@rgsu_mf",
       "size": "wide"
     },
     {
@@ -29,11 +29,11 @@
       "size": "normal"
     },
     {
-      "id": "tiktok",
-      "platform": "tiktok",
-      "title": "TikTok",
-      "description": "Короткие видео из жизни студентов филиала.",
-      "url": "https://www.tiktok.com/@rgsu_mf",
+      "id": "tg-mf",
+      "platform": "telegram",
+      "title": "Чат филиала РГСУ МФ",
+      "description": "Студенческий чат филиала: новости, расписание, взаимопомощь.",
+      "url": "https://t.me/rgsuminsk",	  
       "size": "normal"
     },
     {
