@@ -28,6 +28,27 @@ const platformLabels: Partial<Record<SocialPlatform, string>> = {
   openday: "Абитуриенту",
 };
 
+// Фон карточки — узнаваемый градиент платформы (решение 2026-10-01);
+// для website/openday остаётся фирменный градиент РГСУ
+const platformBackgrounds: Record<SocialPlatform, string> = {
+  telegram: "bg-[linear-gradient(135deg,#1D96D8_0%,#14709E_55%,#0B4A6C_100%)]",
+  instagram: "bg-[linear-gradient(135deg,#833AB4_0%,#E1306C_55%,#F77737_100%)]",
+  tiktok: "bg-[linear-gradient(135deg,#23272F_0%,#0B0E14_70%)]",
+  youtube: "bg-[linear-gradient(135deg,#FF5A4E_0%,#E62117_55%,#8F0E0A_100%)]",
+  website: "bg-rgsu-brand",
+  openday: "bg-rgsu-brand",
+};
+
+// Цвет глифа на белой иконке-плитке
+const platformGlyphColors: Record<SocialPlatform, string> = {
+  telegram: "text-[#229ED9]",
+  instagram: "text-[#E1306C]",
+  tiktok: "text-[#0B0E14]",
+  youtube: "text-[#E62117]",
+  website: "text-rgsu-royal",
+  openday: "text-rgsu-ruby",
+};
+
 // Bento-спаны карточки: featured — крупный угол, wide/full — растянуты, normal — 1x1
 const sizeClasses: Record<NonNullable<Social["size"]>, string> = {
   featured: "col-span-2 row-span-2",
@@ -55,7 +76,8 @@ export function SocialCard({ social, expanded, onToggle, onHover, onUnhover }: S
   return (
     <article
       className={cn(
-        "card-enter squircle group relative w-full h-full flex flex-col overflow-hidden bg-rgsu-brand text-white shadow-[0_8px_24px_rgba(8,37,103,0.35)] transition duration-200 hover:shadow-[0_14px_36px_rgba(8,37,103,0.5)] hover:-translate-y-0.5",
+        "card-enter squircle group relative w-full h-full flex flex-col overflow-hidden text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition duration-200 hover:shadow-[0_14px_36px_rgba(0,0,0,0.5)] hover:-translate-y-0.5",
+        platformBackgrounds[social.platform],
         onToggle && "lg:cursor-pointer",
         sizeClasses[social.size ?? "normal"]
       )}
@@ -98,23 +120,33 @@ export function SocialCard({ social, expanded, onToggle, onHover, onUnhover }: S
             />
           </button>
         )}
-        {/* Иконка платформы — стеклянный круг на баннере */}
+        {/* Большая 3D-иконка: белая плитка-аппток с бликом и внутренними тенями */}
         <div
           className={cn(
-            "relative rounded-full bg-white/15 border border-white/25 flex items-center justify-center mb-3",
-            featured ? "w-12 h-12" : "w-9 h-9"
+            "relative rounded-2xl [corner-shape:superellipse(4)] bg-white flex items-center justify-center mb-3",
+            "shadow-[0_14px_28px_-8px_rgba(0,0,0,0.45),inset_0_2px_0_rgba(255,255,255,0.95),inset_0_-4px_10px_rgba(0,0,0,0.14)]",
+            featured ? "w-16 h-16" : "w-12 h-12"
           )}
         >
-          <HugeiconsIcon icon={Icon} size={featured ? 24 : 18} strokeWidth={1.5} className="text-white" />
+          <HugeiconsIcon
+            icon={Icon}
+            size={featured ? 36 : 27}
+            strokeWidth={2.5}
+            className={platformGlyphColors[social.platform]}
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute left-1.5 right-1.5 top-1 h-1/3 rounded-full bg-gradient-to-b from-white/90 to-transparent blur-[1px]"
+          />
           {social.members && (
-            <span className="absolute -top-1.5 -right-2 px-1.5 py-0.5 rounded-full bg-rgsu-ruby text-white text-[11px] font-semibold leading-none shadow-xs">
+            <span className="absolute -top-1.5 -right-2 px-1.5 py-0.5 rounded-full bg-rgsu-ruby text-white text-[11px] font-semibold leading-none border border-white/30 shadow-xs">
               {social.members}
             </span>
           )}
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-semibold uppercase tracking-widest text-rgsu-ice/90">
+          <span className="text-xs font-semibold uppercase tracking-widest text-white/85">
             {platformLabels[social.platform] ?? social.platform}
           </span>
           {social.members && (
@@ -159,7 +191,7 @@ export function SocialCard({ social, expanded, onToggle, onHover, onUnhover }: S
           rel="noopener noreferrer"
           aria-label={`Перейти — ${social.title}`}
           className={cn(
-            "mt-4 inline-flex items-center justify-center gap-1.5 w-full rounded-full bg-rgsu-ruby text-white font-semibold shadow-[0_6px_16px_rgba(120,15,10,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 active:scale-[0.96] transition",
+            "mt-4 inline-flex items-center justify-center gap-1.5 w-full rounded-full bg-rgsu-ruby text-white font-semibold ring-1 ring-white/25 shadow-[0_6px_16px_rgba(120,15,10,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 active:scale-[0.96] transition",
             compact ? "h-9 text-xs" : "h-11 text-sm"
           )}
         >
