@@ -29,25 +29,26 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
         )}
         aria-label={isDark ? "Включить светлую тему" : "Включить тёмную тему"}
       >
-        {/* Солнце (появляется в тёмной теме для перехода на светлую) */}
+        {/* Солнце (появляется в тёмной теме для перехода на светлую) — симметричный глиф, без сдвига */}
         <HugeiconsIcon
           icon={Sun03Icon}
           size={18}
           strokeWidth={1.5}
           className={cn(
-            "absolute inset-0 m-auto -translate-x-0.5 transition-[opacity,transform,filter] duration-200 ease-vs",
+            "absolute inset-0 m-auto transition-[opacity,transform,filter] duration-200 ease-vs",
             isDark
               ? "scale-100 opacity-100 blur-0"
               : "scale-25 opacity-0 blur-[4px] pointer-events-none"
           )}
         />
-        {/* Луна (в светлой теме для перехода на тёмную) */}
+        {/* Луна (в светлой теме для перехода на тёмную): центр массы серпа левее
+            геометрического центра — сдвиг +1.5px вправо по замеру центроида */}
         <HugeiconsIcon
           icon={Moon02Icon}
           size={18}
           strokeWidth={1.5}
           className={cn(
-            "absolute inset-0 m-auto -translate-x-0.5 transition-[opacity,transform,filter] duration-200 ease-vs",
+            "absolute inset-0 m-auto translate-x-[1.5px] transition-[opacity,transform,filter] duration-200 ease-vs",
             isDark
               ? "scale-25 opacity-0 blur-[4px] pointer-events-none"
               : "scale-100 opacity-100 blur-0"
