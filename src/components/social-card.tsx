@@ -118,8 +118,12 @@ export function SocialCard({ social, expanded, onToggle, onHover, onUnhover }: S
             }
           : undefined
       }
-      onMouseEnter={onHover}
-      onMouseLeave={onUnhover}
+      onPointerEnter={(e) => {
+        if (e.pointerType === "mouse") onHover?.(); // hover-расширение треков только для мыши
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === "mouse") onUnhover?.();
+      }}
       onPointerDown={spawnCardRipple}
       style={{ "--glow-tint": platformGlowRgb[social.platform] } as React.CSSProperties}
     >

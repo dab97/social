@@ -12,7 +12,7 @@ import { SocialCard } from "./social-card";
  * rAF-цикл засыпает, когда все пружины успокоились. reduced-motion — мгновенно.
  */
 
-const COLS = 4;
+const COLS_LG = 4;
 const EXPAND = 3.5;
 const HOVER_GROW = 1.22;
 const BOUNCE = 0.55;
@@ -26,25 +26,26 @@ const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(ma
 
 export function BentoGrid({ socials }: { socials: Social[] }) {
   const gridRef = useRef<HTMLDivElement | null>(null);
-  const colSprings = useRef<Spring[]>(Array.from({ length: COLS }, makeSpring));
+  const colSprings = useRef<Spring[]>(Array.from({ length: 2 }, makeSpring));
   const cardStarts = useRef<number[]>([]);
-  const loop = useRef({ raf: 0, sleeping: true, last: 0, lg: false });
+  const loop = useRef({ raf: 0, sleeping: true, last: 0 });
   const ui = useRef({ focused: -1, hovered: -1 });
   const [focused, setFocusedState] = useState(-1); // зеркало для React-эффектов
-  const [lg, setLg] = useState(false); // пружины только на 4-колоночной сетке
+  const [cols, setCols] = useState(2); // 2 колонки на мобильном, 4 на lg
   const [, bump] = useState(0);
   const reduced = useRef(
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
 
-  // Сколько колонок занимает каждая карточка (full = вся ширина)
+  // Сколько колонок занимает каждая карточка (full на lg — вся ширина)
   const spans = useMemo(
     () =>
       socials.map((s) => {
         const size = s.size ?? "normal";
-        return size === "full" ? COLS : size === "normal" ? 1 : 2;
+        if (cols === 4) return size === "full" ? 4 : size === "normal" ? 1 : 2;
+        return size === "featured" || size === "full" ? 2 : 1;
       }),
-    [socials]
+    [socials, cols]
   );
 
   const applyColumns = useCallback(() => {
@@ -65,12 +66,12 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
     const grid = gridRef.current;
     if (!grid) return;
     const gridLeft = grid.getBoundingClientRect().left;
-    const colWidth = grid.clientWidth / COLS;
+    const colWidth = grid.clientWidth / cols;
     cardStarts.current = Array.from(
       grid.querySelectorAll<HTMLElement>(":scope > .contents > article"),
-      (card) => clamp(Math.round((card.getBoundingClientRect().left - gridLeft) / colWidth), 0, COLS - 1)
+      (card) => clamp(Math.round((card.getBoundingClientRect().left - gridLeft) / colWidth), 0, cols - 1)
     );
-  }, []);
+  }, [cols]);
 
   const retarget = useCallback(() => {
     const { focused, hovered } = ui.current;
@@ -79,19 +80,19 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
     if (pick >= 0) {
       const c0 = cardStarts.current[pick] ?? 0;
       const cs = spans[pick];
-      for (let c = c0; c < Math.min(c0 + cs, COLS); c++) {
+      for (let c = c0; c < Math.min(c0 + cs, cols); c++) {
         colSprings.current[c].target = focused >= 0 ? EXPAND : HOVER_GROW;
       }
     }
-  }, [spans]);
+  }, [spans, cols]);
 
   const squashKick = useCallback(
     (idx: number) => {
       const c0 = cardStarts.current[idx] ?? 0;
       const cs = spans[idx];
-      for (let c = c0; c < Math.min(c0 + cs, COLS); c++) colSprings.current[c].v -= 4;
+      for (let c = c0; c < Math.min(c0 + cs, cols); c++) colSprings.current[c].v -= 4;
     },
-    [spans]
+    [spans, cols]
   );
 
   const stepSpring = (t: Spring, dt: number) => {
@@ -128,7 +129,7 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
 
   const wake = useCallback(() => {
     const st = loop.current;
-    if (reduced.current || !st.lg) return;
+    if (reduced.current) return;
     st.sleeping = false;
     if (!st.raf) {
       st.last = 0;
@@ -179,31 +180,23 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
     [retarget, wake]
   );
 
-  // Пружины живут только на lg; при уходе с lg — полный сброс
+  // Кол-во колонок меняется на брейкпоинте — пересоздаём пружины под новую сетку
+  useEffect(() => {
+    colSprings.current = Array.from({ length: cols }, makeSpring);
+    ui.current.focused = -1;
+    ui.current.hovered = -1;
+    setFocusedState(-1);
+    resetColumns();
+    bump((n) => n + 1);
+  }, [cols, resetColumns]);
+
   useEffect(() => {
     const mq = window.matchMedia(LG_QUERY);
-    const sync = () => {
-      loop.current.lg = mq.matches;
-      setLg(mq.matches);
-      if (!mq.matches) {
-        cancelAnimationFrame(loop.current.raf);
-        loop.current.raf = 0;
-        loop.current.sleeping = true;
-        colSprings.current.forEach((s) => Object.assign(s, makeSpring()));
-        ui.current.focused = -1;
-        ui.current.hovered = -1;
-        setFocusedState(-1);
-        resetColumns();
-        bump((n) => n + 1);
-      }
-    };
+    const sync = () => setCols(mq.matches ? 4 : 2);
     sync();
     mq.addEventListener("change", sync);
-    return () => {
-      mq.removeEventListener("change", sync);
-      cancelAnimationFrame(loop.current.raf);
-    };
-  }, [resetColumns]);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   // Escape сворачивает раскрытую карточку
   useEffect(() => {
@@ -239,6 +232,7 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
       }
     };
     const move = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return; // тач не зажигает glow — иначе на мобильных артефакт
       px = e.clientX; py = e.clientY; has = true;
       if (!raf) raf = requestAnimationFrame(flush);
     };
@@ -262,9 +256,9 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
           <SocialCard
             social={social}
             expanded={focused === i}
-            onToggle={lg ? () => toggle(i) : undefined}
-            onHover={lg ? () => hover(i) : undefined}
-            onUnhover={lg ? () => unhover(i) : undefined}
+            onToggle={() => toggle(i)}
+            onHover={() => hover(i)}
+            onUnhover={() => unhover(i)}
           />
         </div>
       ))}
