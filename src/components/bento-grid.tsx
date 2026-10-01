@@ -215,6 +215,46 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [focused, toggle]);
 
+  // Proximity-glow: один pointermove на сетку, rAF-троттлинг; переменные --gx/--gy/--glow
+  // на каждой карточке (адаптация vs-fx attachGlow, привязанная к нашей сетке)
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    let raf = 0;
+    let px = 0, py = 0, has = false;
+    const cards = () => Array.from(grid.querySelectorAll<HTMLElement>(":scope > .contents > article"));
+    const flush = () => {
+      raf = 0;
+      if (!has) return;
+      for (const el of cards()) {
+        const r = el.getBoundingClientRect();
+        const nx = Math.max(r.left, Math.min(px, r.right));
+        const ny = Math.max(r.top, Math.min(py, r.bottom));
+        const i = Math.max(0, 1 - Math.hypot(px - nx, py - ny) / 220);
+        el.style.setProperty("--glow", i.toFixed(3));
+        if (i > 0) {
+          el.style.setProperty("--gx", `${px - r.left}px`);
+          el.style.setProperty("--gy", `${py - r.top}px`);
+        }
+      }
+    };
+    const move = (e: PointerEvent) => {
+      px = e.clientX; py = e.clientY; has = true;
+      if (!raf) raf = requestAnimationFrame(flush);
+    };
+    const leave = () => {
+      has = false;
+      for (const el of cards()) el.style.setProperty("--glow", "0");
+    };
+    grid.addEventListener("pointermove", move, { passive: true });
+    grid.addEventListener("pointerleave", leave);
+    return () => {
+      grid.removeEventListener("pointermove", move);
+      grid.removeEventListener("pointerleave", leave);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <div ref={gridRef} className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
       {socials.map((social, i) => (

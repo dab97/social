@@ -49,12 +49,23 @@ const platformGlyphColors: Record<SocialPlatform, string> = {
   openday: "text-rgsu-ruby",
 };
 
-// Bento-спаны карточки: featured — крупный угол, wide/full — растянуты, normal — 1x1
+// Bento-спаны карточки: мозаика на всех экранах — featured 2×2, wide на мобильном
+// вертикальная 1×2 (как в референсе vuesax), на lg горизонтальная 2×1
 const sizeClasses: Record<NonNullable<Social["size"]>, string> = {
   featured: "col-span-2 row-span-2",
-  wide: "col-span-2 lg:col-span-2",
+  wide: "col-span-1 row-span-2 lg:col-span-2 lg:row-span-1",
   full: "col-span-2 lg:col-span-4",
-  normal: "col-span-1 lg:col-span-1",
+  normal: "col-span-1",
+};
+
+// RGB-триплеты для proximity-glow (рамка подсвечивается цветом платформы)
+const platformGlowRgb: Record<SocialPlatform, string> = {
+  telegram: "34 174 222",
+  instagram: "225 48 108",
+  tiktok: "205 215 235",
+  youtube: "255 70 60",
+  website: "90 120 255",
+  openday: "220 60 55",
 };
 
 interface SocialCardProps {
@@ -65,6 +76,23 @@ interface SocialCardProps {
   onToggle?: () => void;
   onHover?: () => void;
   onUnhover?: () => void;
+}
+
+// Ripple при нажатии (адаптация vs-fx pressRipple, плоская — без 3D-наклона)
+function spawnCardRipple(e: React.PointerEvent<HTMLElement>) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const host = e.currentTarget;
+  const r = host.getBoundingClientRect();
+  const x = e.clientX - r.left;
+  const y = e.clientY - r.top;
+  const dx = Math.max(x, r.width - x);
+  const dy = Math.max(y, r.height - y);
+  const size = Math.hypot(dx, dy) * 2;
+  const span = document.createElement("span");
+  span.className = "card-ripple";
+  span.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px`;
+  span.addEventListener("animationend", () => span.remove());
+  host.appendChild(span);
 }
 
 // Карточка-баннер в стиле og-image: фирменный градиент, диагональные полосы, Bebas-заголовок
@@ -92,7 +120,11 @@ export function SocialCard({ social, expanded, onToggle, onHover, onUnhover }: S
       }
       onMouseEnter={onHover}
       onMouseLeave={onUnhover}
+      onPointerDown={spawnCardRipple}
+      style={{ "--glow-tint": platformGlowRgb[social.platform] } as React.CSSProperties}
     >
+      {/* Proximity-glow: рамка подсвечивается цветом платформы при приближении курсора */}
+      <span aria-hidden className="card-glow" />
       {/* Диагональные световые полосы и свечение — как на баннерах rgsu.by */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute -top-10 -bottom-10 left-[14%] w-14 bg-white/5 -skew-x-[18deg]" />
