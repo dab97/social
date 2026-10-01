@@ -3,7 +3,7 @@ import { SocialsData } from "./types/socials";
 import { BentoGrid } from "./components/bento-grid";
 import { ThemeSwitcher } from "./components/ThemeSwitcher";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { AlertCircleIcon, RefreshIcon } from "@hugeicons/core-free-icons";
+import { AlertCircleIcon, RefreshIcon, Home01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { Button } from "./components/ui/button";
 
 export default function App() {
@@ -62,7 +62,9 @@ export default function App() {
               <span className="text-xs text-muted-foreground leading-tight truncate">Социальные сети</span>
             </div>
           </div>
-          <ThemeSwitcher />
+          <div className="hidden sm:block">
+            <ThemeSwitcher />
+          </div>
         </div>
       </header>
 
@@ -119,7 +121,7 @@ export default function App() {
       </main>
 
       {/* 4. Футер */}
-      <footer className="border-t border-slate-200/60 dark:border-slate-800/60 bg-transparent text-xs text-muted-foreground mt-6 sm:mt-8 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+      <footer className="border-t border-slate-200/60 dark:border-slate-800/60 bg-transparent text-xs text-muted-foreground mt-6 sm:mt-8 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] mb-14 sm:mb-0">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
           <div>
             <p className="font-medium text-foreground text-xs sm:text-sm">
@@ -140,6 +142,37 @@ export default function App() {
           </a>
         </div>
       </footer>
+
+      {/* 5. Мобильный нижний бар (как у spravka): внешний сайт, справки, тема — под большой палец */}
+      <nav
+        className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/80 dark:bg-slate-900/85 backdrop-blur-xl border-t border-slate-200/60 dark:border-slate-800/60 pb-[env(safe-area-inset-bottom,0px)]"
+        aria-label="Мобильная навигация"
+      >
+        <div className="grid grid-cols-3 h-14 max-w-xs mx-auto px-4">
+          <a
+            href="https://rgsu.by/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center justify-center gap-1 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-rgsu-ice active:scale-95 transition"
+          >
+            <HugeiconsIcon icon={Home01Icon} size={20} strokeWidth={1.5} />
+            <span className="text-xs font-medium leading-none">Сайт</span>
+          </a>
+          <a
+            href="https://spravka.rgsu.by/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center justify-center gap-1 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-rgsu-ice active:scale-95 transition"
+          >
+            <HugeiconsIcon icon={Calendar03Icon} size={20} strokeWidth={1.5} />
+            <span className="text-xs font-medium leading-none">Справки</span>
+          </a>
+          <div className="flex flex-col items-center justify-center gap-1 text-slate-600 dark:text-slate-400">
+            <ThemeSwitcher />
+            <span className="text-xs font-medium leading-none">Тема</span>
+          </div>
+        </div>
+      </nav>
     </div>
   );
 }
