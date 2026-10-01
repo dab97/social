@@ -108,7 +108,7 @@ export function SocialCard({ social, mobileClassName, mobileCompact, expanded, o
   return (
     <article
       className={cn(
-        "card-enter squircle group relative w-full h-full flex flex-col overflow-hidden text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition duration-200 hover:shadow-[0_14px_36px_rgba(0,0,0,0.5)] hover:-translate-y-0.5",
+        "card-enter squircle group relative w-full h-full flex flex-col overflow-hidden text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-[box-shadow,background-color] duration-200 hover:shadow-[0_14px_36px_rgba(0,0,0,0.5)]",
         platformBackgrounds[social.platform],
         onToggle && "cursor-pointer",
         mobileClassName,
@@ -141,7 +141,7 @@ export function SocialCard({ social, mobileClassName, mobileCompact, expanded, o
         <div className="absolute inset-0 bg-[radial-gradient(520px_280px_at_88%_0%,rgba(255,255,255,0.10),transparent_60%)]" />
       </div>
 
-      <div className={cn("relative z-10 flex flex-col flex-grow", featured ? "p-5 sm:p-6" : "p-4")}>
+      <div className={cn("relative z-10 flex flex-col flex-grow", featured ? "p-5 sm:p-6" : "p-4", mobileCompact && "max-lg:p-3")}>
         {/* Кнопка раскрытия: на hover и при клавиатурном фокусе (пружинная сетка, lg) */}
         {onToggle && (
           <button
@@ -167,14 +167,16 @@ export function SocialCard({ social, mobileClassName, mobileCompact, expanded, o
           className={cn(
             "relative bg-white flex items-center justify-center mb-3 [corner-shape:superellipse(2.4)]",
             "shadow-[0_14px_28px_-8px_rgba(0,0,0,0.45),inset_0_2px_0_rgba(255,255,255,0.95),inset_0_-4px_10px_rgba(0,0,0,0.14)]",
-            featured ? "w-16 h-16 rounded-[20px] sm:rounded-[16px]" : "w-12 h-12 rounded-[24px]"
+            featured
+              ? "w-16 h-16 rounded-[20px] sm:rounded-[16px]"
+              : cn("w-12 h-12 rounded-[24px]", mobileCompact && "max-lg:w-10 max-lg:h-10 max-lg:rounded-[16px]")
           )}
         >
           <HugeiconsIcon
             icon={Icon}
             size={featured ? 36 : 27}
             strokeWidth={2.5}
-            className={platformGlyphColors[social.platform]}
+            className={cn(platformGlyphColors[social.platform], mobileCompact && "max-lg:w-[22px] max-lg:h-[22px]")}
           />
           <span
             aria-hidden
@@ -222,7 +224,7 @@ export function SocialCard({ social, mobileClassName, mobileCompact, expanded, o
             "text-white/75 leading-relaxed mt-2 flex-grow",
             compact && !expanded ? "text-xs line-clamp-2" : "text-sm",
             featured && "text-sm",
-            mobileCompact && !compact && "max-lg:text-xs max-lg:line-clamp-2"
+            mobileCompact && "max-lg:text-xs max-lg:line-clamp-2 max-lg:hidden"
           )}
         >
           {social.description}
@@ -234,13 +236,20 @@ export function SocialCard({ social, mobileClassName, mobileCompact, expanded, o
           rel="noopener noreferrer"
           aria-label={`Перейти — ${social.title}`}
           className={cn(
-            "mt-4 inline-flex items-center justify-center gap-1.5 w-full rounded-full bg-rgsu-ruby text-white font-semibold ring-1 ring-white/25 shadow-[0_6px_16px_rgba(120,15,10,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 active:scale-[0.96] transition",
-            compact ? "h-9 text-xs" : "h-11 text-sm",
-            mobileCompact && !compact && "max-lg:h-9 max-lg:text-xs"
+            "inline-flex items-center justify-center rounded-full bg-rgsu-ruby text-white font-semibold ring-1 ring-white/25 shadow-[0_6px_16px_rgba(120,15,10,0.45),inset_0_1px_0_rgba(255,255,255,0.25)] hover:brightness-110 active:scale-[0.96] transition",
+            // Узкие карточки на мобильном: круг-иконка в углу; иначе — полная плашка
+            compact || mobileCompact
+              ? "max-lg:mt-3 max-lg:ml-auto max-lg:w-10 max-lg:h-10 mt-4 w-full h-11 text-sm"
+              : "mt-4 gap-1.5 w-full h-11 text-sm"
           )}
         >
-          Перейти
-          <HugeiconsIcon icon={LinkSquare02Icon} size={compact ? 14 : 16} strokeWidth={2} />
+          <span className={cn((compact || mobileCompact) && "max-lg:hidden")}>Перейти</span>
+          <HugeiconsIcon
+            icon={LinkSquare02Icon}
+            size={16}
+            strokeWidth={2}
+            className={cn((compact || mobileCompact) && "max-lg:w-[18px] max-lg:h-[18px]")}
+          />
         </a>
       </div>
     </article>
