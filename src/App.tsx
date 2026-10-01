@@ -48,8 +48,8 @@ export default function App() {
       <a href="#content" className="skip-link">
         Перейти к содержимому
       </a>
-      {/* 1. Плавающая капсула Liquid Glass — контент прокручивается под стеклом */}
-      <header className="sticky top-0 z-40 w-full px-3 sm:px-5 pt-3 pointer-events-none">
+      {/* 1. Плавающая капсула Liquid Glass — на мобильных скрыта (тема и ссылки в нижнем баре) */}
+      <header className="hidden sm:block sticky top-0 z-40 w-full px-3 sm:px-5 pt-3 pointer-events-none">
         <div className="glass-header pointer-events-auto max-w-6xl mx-auto h-14 rounded-full flex items-center justify-between gap-3 pl-2.5 pr-2.5 bg-white/80 dark:bg-slate-900/85 backdrop-blur-xl backdrop-saturate-150 border border-white/70 dark:border-white/15 shadow-[0_1px_3px_rgba(15,23,42,0.08),0_4px_12px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.75)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.08)]">
           <div className="flex items-center gap-2.5 min-w-0">
             <img
