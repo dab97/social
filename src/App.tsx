@@ -168,7 +168,7 @@ export default function App() {
             <span className="text-xs font-medium leading-none">Справки</span>
           </a>
           <div className="flex flex-col items-center justify-center gap-1 text-slate-600 dark:text-slate-400">
-            <ThemeSwitcher />
+            <ThemeSwitcher className="w-8 h-8" />
             <span className="text-xs font-medium leading-none">Тема</span>
           </div>
         </div>
