@@ -26,26 +26,45 @@ const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(ma
 
 export function BentoGrid({ socials }: { socials: Social[] }) {
   const gridRef = useRef<HTMLDivElement | null>(null);
-  const colSprings = useRef<Spring[]>(Array.from({ length: 2 }, makeSpring));
+  const colSprings = useRef<Spring[]>(Array.from({ length: 3 }, makeSpring));
   const cardStarts = useRef<number[]>([]);
   const loop = useRef({ raf: 0, sleeping: true, last: 0 });
   const ui = useRef({ focused: -1, hovered: -1 });
   const [focused, setFocusedState] = useState(-1); // зеркало для React-эффектов
-  const [cols, setCols] = useState(2); // 2 колонки на мобильном, 4 на lg
+  const [cols, setCols] = useState(3); // 3 трека на мобильном (мозаика), 4 на lg
   const [, bump] = useState(0);
   const reduced = useRef(
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
 
+  // Мобильная мозаика на 3 треках (референс vuesax): featured — двойная,
+  // wide-карточки чередуются «высокая 1×2 / двойная 2×1 / узкая 1×1» —
+  // ряды получают разные сплиты (2+1, 1+1+1, 2+1) и сетка пакуется без дыр
+  const mobileLayout = useMemo(() => {
+    let wideSeen = 0;
+    return socials.map((s) => {
+      const size = s.size ?? "normal";
+      if (size === "featured") return { cls: "col-span-2", cols: 2 };
+      if (size === "full") return { cls: "col-span-3", cols: 3 };
+      if (size === "wide") {
+        const kind = wideSeen++ % 3;
+        if (kind === 0) return { cls: "col-span-1 row-span-2", cols: 1 };
+        if (kind === 1) return { cls: "col-span-2", cols: 2 };
+        return { cls: "col-span-1", cols: 1 };
+      }
+      return { cls: "col-span-1", cols: 1 };
+    });
+  }, [socials]);
+
   // Сколько колонок занимает каждая карточка (full на lg — вся ширина)
   const spans = useMemo(
     () =>
-      socials.map((s) => {
+      socials.map((s, i) => {
         const size = s.size ?? "normal";
         if (cols === 4) return size === "full" ? 4 : size === "normal" ? 1 : 2;
-        return size === "featured" || size === "full" ? 2 : 1;
+        return mobileLayout[i].cols;
       }),
-    [socials, cols]
+    [socials, cols, mobileLayout]
   );
 
   const applyColumns = useCallback(() => {
@@ -192,7 +211,7 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
 
   useEffect(() => {
     const mq = window.matchMedia(LG_QUERY);
-    const sync = () => setCols(mq.matches ? 4 : 2);
+    const sync = () => setCols(mq.matches ? 4 : 3);
     sync();
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
@@ -250,11 +269,12 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
   }, []);
 
   return (
-    <div ref={gridRef} className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+    <div ref={gridRef} className="grid grid-flow-dense grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-4">
       {socials.map((social, i) => (
         <div key={social.id} className="contents" style={{ "--stagger": i } as React.CSSProperties}>
           <SocialCard
             social={social}
+            mobileClassName={mobileLayout[i].cls}
             expanded={focused === i}
             onToggle={() => toggle(i)}
             onHover={() => hover(i)}

@@ -49,13 +49,13 @@ const platformGlyphColors: Record<SocialPlatform, string> = {
   openday: "text-rgsu-ruby",
 };
 
-// Bento-спаны карточки: мозаика на всех экранах — featured 2×2, wide на мобильном
-// вертикальная 1×2 (как в референсе vuesax), на lg горизонтальная 2×1
-const sizeClasses: Record<NonNullable<Social["size"]>, string> = {
-  featured: "col-span-2 row-span-2",
-  wide: "col-span-1 row-span-2 lg:col-span-2 lg:row-span-1",
-  full: "col-span-2 lg:col-span-4",
-  normal: "col-span-1",
+// Bento-спаны на lg (4 трека). На мобильном — асимметричная мозаика на 3 треках,
+// классы приходят пропсом mobileClassName из BentoGrid (как в референсе vuesax)
+const lgSizeClasses: Record<NonNullable<Social["size"]>, string> = {
+  featured: "lg:col-span-2 lg:row-span-2",
+  wide: "lg:col-span-2",
+  full: "lg:col-span-4",
+  normal: "lg:col-span-1",
 };
 
 // RGB-триплеты для proximity-glow (рамка подсвечивается цветом платформы)
@@ -70,7 +70,9 @@ const platformGlowRgb: Record<SocialPlatform, string> = {
 
 interface SocialCardProps {
   social: Social;
-  /** Карточка раскрыта (пружинная сетка, только lg) */
+  /** Мобильные bento-спаны (мозаика на 3 треках) */
+  mobileClassName?: string;
+  /** Карточка раскрыта (пружинная сетка) */
   expanded?: boolean;
   /** Клик-переключатель раскрытия (mouse на всей площади карточки) */
   onToggle?: () => void;
@@ -96,7 +98,7 @@ function spawnCardRipple(e: React.PointerEvent<HTMLElement>) {
 }
 
 // Карточка-баннер в стиле og-image: фирменный градиент, диагональные полосы, Bebas-заголовок
-export function SocialCard({ social, expanded, onToggle, onHover, onUnhover }: SocialCardProps) {
+export function SocialCard({ social, mobileClassName, expanded, onToggle, onHover, onUnhover }: SocialCardProps) {
   const Icon = platformIcons[social.platform];
   const featured = social.size === "featured";
   const compact = social.size === "normal";
@@ -107,7 +109,8 @@ export function SocialCard({ social, expanded, onToggle, onHover, onUnhover }: S
         "card-enter squircle group relative w-full h-full flex flex-col overflow-hidden text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition duration-200 hover:shadow-[0_14px_36px_rgba(0,0,0,0.5)] hover:-translate-y-0.5",
         platformBackgrounds[social.platform],
         onToggle && "lg:cursor-pointer",
-        sizeClasses[social.size ?? "normal"]
+        mobileClassName,
+        lgSizeClasses[social.size ?? "normal"]
       )}
       onClick={
         onToggle
