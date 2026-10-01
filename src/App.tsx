@@ -63,7 +63,7 @@ export default function App() {
               <span className="text-xs text-muted-foreground leading-tight truncate">Социальные сети</span>
             </div>
           </div>
-          <div className="hidden sm:block">
+          <div className="hidden sm:flex items-center">
             <ThemeSwitcher />
           </div>
         </div>
