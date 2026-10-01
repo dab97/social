@@ -35,7 +35,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
           size={18}
           strokeWidth={1.5}
           className={cn(
-            "absolute inset-0 m-auto transition-[opacity,transform,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)]",
+            "absolute inset-0 m-auto transition-[opacity,transform,filter] duration-200 ease-vs",
             isDark
               ? "scale-100 opacity-100 blur-0"
               : "scale-25 opacity-0 blur-[4px] pointer-events-none"
@@ -47,7 +47,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
           size={18}
           strokeWidth={1.5}
           className={cn(
-            "absolute inset-0 m-auto transition-[opacity,transform,filter] duration-200 ease-[cubic-bezier(0.2,0,0,1)]",
+            "absolute inset-0 m-auto transition-[opacity,transform,filter] duration-200 ease-vs",
             isDark
               ? "scale-25 opacity-0 blur-[4px] pointer-events-none"
               : "scale-100 opacity-100 blur-0"

@@ -17,6 +17,10 @@ export default {
         // Верхняя ступень шкалы: герой h1 на десктопе (text-display)
         display: ['4.5rem', { lineHeight: '1.05' }],
       },
+      transitionTimingFunction: {
+        // Каноничная кривая кроссфейда иконок (скилл better-ui)
+        vs: 'cubic-bezier(0.2, 0, 0, 1)',
+      },
       backgroundImage: {
         // Единственный фирменный градиент из брендбука: navy Pantone 2758 C -> royal Pantone 286 C
         'rgsu-brand': 'linear-gradient(90deg, #082567 0%, #102FA1 100%)',
