@@ -37,21 +37,13 @@ export function BentoGrid({ socials }: { socials: Social[] }) {
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
 
-  // Мобильная мозаика на 3 треках (референс vuesax): featured — двойная,
-  // wide-карточки чередуются «высокая 1×2 / двойная 2×1 / узкая 1×1» —
-  // ряды получают разные сплиты (2+1, 1+1+1, 2+1) и сетка пакуется без дыр
+  // Мобильная мозаика на 3 треках: featured и wide — двойные (два Telegram-чата
+  // одинаковыми карточками), normal/full — по ширине трека; ряды «2+1»
   const mobileLayout = useMemo(() => {
-    let wideSeen = 0;
     return socials.map((s) => {
       const size = s.size ?? "normal";
-      if (size === "featured") return { cls: "col-span-2", cols: 2 };
+      if (size === "featured" || size === "wide") return { cls: "col-span-2", cols: 2 };
       if (size === "full") return { cls: "col-span-3", cols: 3 };
-      if (size === "wide") {
-        const kind = wideSeen++ % 3;
-        if (kind === 0) return { cls: "col-span-1 row-span-2", cols: 1 };
-        if (kind === 1) return { cls: "col-span-2", cols: 2 };
-        return { cls: "col-span-1", cols: 1 };
-      }
       return { cls: "col-span-1", cols: 1 };
     });
   }, [socials]);
