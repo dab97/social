@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { SocialsData } from "./types/socials";
 import { BentoGrid } from "./components/bento-grid";
 import { ThemeSwitcher } from "./components/ThemeSwitcher";
+import { useTheme } from "./context/theme-provider";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { AlertCircleIcon, RefreshIcon, Home01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
+import { AlertCircleIcon, RefreshIcon, Home01Icon, Calendar03Icon, Sun03Icon, Moon02Icon } from "@hugeicons/core-free-icons";
 import { Button } from "./components/ui/button";
 
 export default function App() {
@@ -167,12 +168,30 @@ export default function App() {
             <HugeiconsIcon icon={Calendar03Icon} size={20} strokeWidth={1.5} />
             <span className="text-xs font-medium leading-none">Справки</span>
           </a>
-          <div className="flex flex-col items-center justify-center gap-1 text-slate-600 dark:text-slate-400">
-            <ThemeSwitcher className="w-8 h-8" />
-            <span className="text-xs font-medium leading-none">Тема</span>
-          </div>
+          <BarThemeButton />
         </div>
       </nav>
     </div>
+  );
+}
+
+// Кнопка темы для нижнего бара: структура 1:1 с соседними пунктами (иконка 20px + подпись)
+function BarThemeButton() {
+  const { theme, setTheme } = useTheme();
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" &&
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches);
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={isDark ? "Включить светлую тему" : "Включить тёмную тему"}
+      className="flex flex-col items-center justify-center gap-1 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-rgsu-ice active:scale-95 transition"
+    >
+      <HugeiconsIcon icon={isDark ? Sun03Icon : Moon02Icon} size={20} strokeWidth={1.5} />
+      <span className="text-xs font-medium leading-none">Тема</span>
+    </button>
   );
 }
