@@ -54,11 +54,16 @@ body {
   animation-delay: calc(var(--stagger, 0) * 40ms);
 }
 
-/* Apple-сквиркл: нативный corner-shape (Chromium 139+/Safari 26+);
-   старые браузеры gracefully остаются на обычном border-radius 24px */
+/* Apple-сквиркл: corner-shape отдельным правилом под @supports — парсеры без
+   поддержки свойства не должны терять и border-radius (Chromium 139+/Safari 26+) */
 .squircle {
   border-radius: 1.5rem;
-  corner-shape: superellipse(4);
+}
+
+@supports (corner-shape: superellipse(4)) {
+  .squircle {
+    corner-shape: superellipse(4);
+  }
 }
 
 /* Skip-link: скрыт, пока не в фокусе; появляется при клавиатурной навигации */
